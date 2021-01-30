@@ -17,22 +17,21 @@ $(document).ready(function () {
   init()
 
   function init() {
+    
     // Get stored todos from localStorage
     // Parsing the JSON string to an object
-    var requestedPlaces = JSON.parse(localStorage.getItem("places"));
+    var requestedPlaces = JSON.parse(localStorage.getItem(places.value));
 
     // If places were retrieved from localStorage, update the places array to it
     if (requestedPlaces !== null) {
       places = requestedPlaces;
     }
-
-    // Render places to the DOM
     renderPlaces();
   }
 
 
-  // Stringify and set "places" key in localStorage to åarray
-  localStorage.setItem("places", JSON.stringify(places));
+  // Stringify and set "places" key in localStorage to array
+  localStorage.setItem(places, JSON.stringify(places.value));
 
 
   function renderPlaces() {
@@ -83,20 +82,28 @@ $(document).ready(function () {
       $("#daily-weather").append(dayMonth)
       var placeTitle;
       placeTitle = $("<h3>").text(response.name + " ")
+      //adds the title of the city
       $("#daily-weather").append(placeTitle)
       var iconCode;
       iconCode = response.weather[0].icon;
-      $("#daily-weather").append(iconCode)
+      //adds icon to the daily weather section
+      var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
+      $("#daily-weather").append($("<img>").attr("src", iconURL));
       var farhren = (response.main.temp - 273.15) * 1.80 + 32;
+      //added farhen and the equation to grab the temp from the API
       farhren = $("<h3>").text("Temperature: " + farhren.toFixed() + "F");
       $("#daily-weather").append(farhren);
+      //added humidity to page
       var humid = (response.main.humidity);
       humid = $("<h3>").text("Humidity: " + humid + "%")
       $("#daily-weather").append(humid);
+      //added wind to page
       var windy = (response.wind.speed);
       windy = $("<h3>").text("Wind Speed: " + windy + "mph");
       $("#daily-weather").append(windy);
 
+      
+      //called variables used in second API call
       var coordinateLon = response.coord.lon;
       var coordinateLat = response.coord.lat;
 
@@ -110,24 +117,26 @@ $(document).ready(function () {
 
         
         var placeUV = (responseUV.value)
+        //new variables for UV Index
         placeUV1 = $("<h3>").text("UV Index: " + placeUV);
         $("#daily-weather").append(placeUV1)
-        if (responseUV.value > 0 && responseUV.value <= 2) {
+        //if statement to add style from CSS to the UV index depending on the number
+        if (placeUV> 0 && placeUV<= 2) {
           placeUV1.attr("style", "color:green")
         }
        
         
         else if (placeUV > 2 && placeUV <= 5){
-            placeUV.attr("style","color:yellow")
+            placeUV1.attr("style","color:yellow")
         }
         else if (placeUV >5 && placeUV <= 7){
-            placeUV.attr("style","color:orange")
+            placeUV1.attr("style","color:orange")
         }
         else if (placeUV >7 && placeUV <= 10){
-            placeUV.attr("style","color:red")
+            placeUV1.attr("style","color:red")
         }
         else{
-            placeUV.attr("style","color:purple")
+            placeUV1.attr("style","color:purple")
     
           //console.log(typeof responseUV)
         }
@@ -136,15 +145,16 @@ $(document).ready(function () {
 
       weather5 = `https://api.openweathermap.org/data/2.5/forecast?q=${searchedCity}&appid=${apiKey}`;
 
+      $("#boxes").empty()
+
       $.ajax({
         url: weather5,
         method: "GET"
       }).then(function (response5) {
-        //$("#boxes").append(dayMonth)
         //console.log(response5)
         for (i = 0; i < 5; i++) { // start for loop
           // creates the columns
-          var forecast = $("<div>").attr("class", "col-5 m-2 bg-primary forecast-div");
+          var forecast = $("<div>").attr("class", "col-2 m-2 bg-primary forecast-div");
           $("#boxes").append(forecast);
           var weatherList = response5.list[i * 8].dt;
           console.log(weatherList)
