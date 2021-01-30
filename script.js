@@ -1,4 +1,12 @@
+/*
+What I understand about tjhis program is that I need to add a form with a working button. 
+This button will show the city, daily weather and 5 day forecast. 
+If I can get what the user types in, then I can get put it in local storage. 
 
+
+
+
+*/
 $(document).ready(function () {
   var places = [];
   var placeList = $("#place-list");
@@ -20,18 +28,23 @@ $(document).ready(function () {
     
     // Get stored todos from localStorage
     // Parsing the JSON string to an object
-    var requestedPlaces = JSON.parse(localStorage.getItem(places.value));
+    var requestedPlaces = JSON.parse(localStorage.getItem("places"));
+
+    console.log(requestedPlaces)
 
     // If places were retrieved from localStorage, update the places array to it
-    if (requestedPlaces !== null) {
-      places = requestedPlaces;
+    if (requestedPlaces) {
+      places = requestedPlaces
+      renderPlaces();
+
+    
     }
-    renderPlaces();
+    //renderPlaces();
   }
 
 
   // Stringify and set "places" key in localStorage to array
-  localStorage.setItem(places, JSON.stringify(places.value));
+  //localStorage.setItem(places, JSON.stringify(places.value));
 
 
   function renderPlaces() {
@@ -48,26 +61,12 @@ $(document).ready(function () {
       placeList.prepend(li);
 
     }
+    
 
   }
 
-  $("#searchCity").on("click", function (event) {
-
-    event.preventDefault();
-    var searchedCity = $("#city-input").val()
-
-    if (searchedCity === "") {
-      return;
-    }
-    places.push(searchedCity);
-
-    renderPlaces();
-
-
-
-
-
-    var apiKey = "e8d14887d5b6d039259af91ed0883179";
+    function renderWeatherDashboard(searchedCity) {
+      var apiKey = "e8d14887d5b6d039259af91ed0883179";
     var weather = `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&appid=${apiKey}`;
 
 
@@ -155,6 +154,7 @@ $(document).ready(function () {
         for (i = 0; i < 5; i++) { // start for loop
           // creates the columns
           var forecast = $("<div>").attr("class", "col-2 m-2 bg-primary forecast-div");
+          //div to add the 5 days for the forecast
           $("#boxes").append(forecast);
           var weatherList = response5.list[i * 8].dt;
           console.log(weatherList)
@@ -171,10 +171,10 @@ $(document).ready(function () {
           var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
           forecast.append($("<img>").attr("src", iconURL));
           var farhren2 = (response5.list[i * 8].main.temp - 273.15) * 1.80 + 32;
-          farhren2 = $("<p>").html("Temp: " + farhren2.toFixed() + "F");
+          farhren2 = $("<h3>").html("Temp: " + farhren2.toFixed() + "F");
           forecast.append(farhren2);
           var humid2 = (response5.list[i * 8].main.humidity)
-          humid2 = $("<p>").html("Humidity: " + humid2 + "%")
+          humid2 = $("<h3>").html("Humidity: " + humid2 + "%")
           forecast.append(humid2);
 
 
@@ -202,9 +202,42 @@ $(document).ready(function () {
 
     });
 
+  }
 
+
+
+
+  
+
+  
+  $(document).on('click','.list-group-item',function(event){
+    event.preventDefault();
+    var selectedPlace = $(this).data("place")
+    console.log(selectedPlace)
+
+     renderWeatherDashboard(selectedPlace) 
+  })
+
+  $("#searchCity").on("click", function (event) {
+
+    event.preventDefault();
+    var searchedCity = $("#city-input").val()
+
+    if (searchedCity === "") {
+      return;
+    }
+    places.push(searchedCity);
+    localStorage.setItem("places", JSON.stringify(places));
+
+    renderPlaces();
+    renderWeatherDashboard(searchedCity) 
 
   });
+
+
+
+
+    
 
 });
 
