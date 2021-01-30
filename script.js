@@ -108,28 +108,29 @@ $(document).ready(function () {
         method: "GET"
       }).then(function (responseUV) {
 
-        console.log(responseUV)
+        
         var placeUV = (responseUV.value)
-        placeUV = $("<h3>").text("UV Index: " + placeUV);
-        $("#daily-weather").append(placeUV)
+        placeUV1 = $("<h3>").text("UV Index: " + placeUV);
+        $("#daily-weather").append(placeUV1)
         if (responseUV.value > 0 && responseUV.value <= 2) {
-          placeUV.attr("class", "green")
+          placeUV1.attr("style", "color:green")
         }
-        /*
+       
+        
         else if (placeUV > 2 && placeUV <= 5){
-            placeUV.attr("class","yellow")
+            placeUV.attr("style","color:yellow")
         }
         else if (placeUV >5 && placeUV <= 7){
-            placeUV.attr("class","orange")
+            placeUV.attr("style","color:orange")
         }
         else if (placeUV >7 && placeUV <= 10){
-            placeUV.attr("class","red")
+            placeUV.attr("style","color:red")
         }
         else{
-            placeUV.attr("class","purple")
+            placeUV.attr("style","color:purple")
     
           //console.log(typeof responseUV)
-        }*/
+        }
 
       })
 
@@ -143,7 +144,7 @@ $(document).ready(function () {
         //console.log(response5)
         for (i = 0; i < 5; i++) { // start for loop
           // creates the columns
-          var forecast = $("<div>").attr("class", "col-5 m-2 bg-primary");
+          var forecast = $("<div>").attr("class", "col-5 m-2 bg-primary forecast-div");
           $("#boxes").append(forecast);
           var weatherList = response5.list[i * 8].dt;
           console.log(weatherList)
@@ -154,17 +155,17 @@ $(document).ready(function () {
           var day = date.getDate()
           var dayMonth = month + "/" + day
           var forecast5 = $("<h3>").text(dayMonth)
-          $("#boxes").append(forecast5);
+          forecast.append(forecast5);
           var iconCode;
           iconCode = response5.list[i * 8].weather[0].icon;
           var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
           forecast.append($("<img>").attr("src", iconURL));
           var farhren2 = (response5.list[i * 8].main.temp - 273.15) * 1.80 + 32;
           farhren2 = $("<p>").html("Temp: " + farhren2.toFixed() + "F");
-          $("#boxes").append(farhren2);
+          forecast.append(farhren2);
           var humid2 = (response5.list[i * 8].main.humidity)
           humid2 = $("<p>").html("Humidity: " + humid2 + "%")
-          $("#boxes").append(humid2);
+          forecast.append(humid2);
 
 
 
