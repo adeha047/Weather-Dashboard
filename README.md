@@ -10,3 +10,16 @@ I used local storage to add the city each time a city is requested.
 I used local storage display each requested city and if the user reloads the page, the city will still be there. 
 
 
+Links: 
+github website: https://github.com/adeha047/Weather-Dashboard
+live website: https://adeha047.github.io/Weather-Dashboard/
+
+
+Challenges: 
+
+I needed to determine how to load the live storage while utilizing the click function. 
+I needed to determine how to make an ajax call when using an API.
+I needed to determine where to find the data needed to display on the page. 
+I needed to determine how to add the image icon within the 5 day forecast and in the main form. 
+
+

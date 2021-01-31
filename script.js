@@ -18,7 +18,7 @@ $(document).ready(function () {
 
   function init() {
     
-    // Get stored todos from localStorage
+    
     // Parsing the JSON string to an object
     var requestedPlaces = JSON.parse(localStorage.getItem("places"));
 
@@ -149,8 +149,10 @@ $(document).ready(function () {
           //div to add the 5 days for the forecast
           $("#boxes").append(forecast);
           var weatherList = response5.list[i * 8].dt;
-          console.log(weatherList)
+          //added weatherlist variable to the ajax call, but needed to multiply the i * 8 because the API lists the weather every 3 hours. 
+          //console.log(weatherList)
           var time = new Date(0)
+          //added time to the 5 day forecast
           time.setUTCSeconds(weatherList);
           var date = time;
           var month = date.getMonth() + 1
@@ -162,12 +164,15 @@ $(document).ready(function () {
           iconCode = response5.list[i * 8].weather[0].icon;
           var iconURL = "http://openweathermap.org/img/w/" + iconCode + ".png";
           forecast.append($("<img>").attr("src", iconURL));
+          //added new icons for each day of the 5 day forecast
           var farhren2 = (response5.list[i * 8].main.temp - 273.15) * 1.80 + 32;
           farhren2 = $("<h3>").html("Temp: " + farhren2.toFixed() + "F");
           forecast.append(farhren2);
           var humid2 = (response5.list[i * 8].main.humidity)
           humid2 = $("<h3>").html("Humidity: " + humid2 + "%")
           forecast.append(humid2);
+
+          //added temperature and humidity for the 5 day forecast. 
 
 
 
