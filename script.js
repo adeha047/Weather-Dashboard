@@ -1,12 +1,4 @@
-/*
-What I understand about tjhis program is that I need to add a form with a working button. 
-This button will show the city, daily weather and 5 day forecast. 
-If I can get what the user types in, then I can get put it in local storage. 
 
-
-
-
-*/
 $(document).ready(function () {
   var places = [];
   var placeList = $("#place-list");

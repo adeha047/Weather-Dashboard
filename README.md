@@ -7,4 +7,6 @@ I needed to make three different Ajax calls to the API for the daily weather, uv
 I added the weather icon found in the weather API. 
 I used JQuery functions to create new tags to be applied each time the user enter a new city
 I used local storage to add the city each time a city is requested. 
+I used local storage display each requested city and if the user reloads the page, the city will still be there. 
+
 
